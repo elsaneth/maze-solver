@@ -42,7 +42,7 @@ public class DepthFirst {
                 return true;
             }
 
-                // Try moving left
+            // Try moving left
             dx = -1;
             dy = 0;
             if (searchPath(maze, x + dx, y + dy, path)) {
