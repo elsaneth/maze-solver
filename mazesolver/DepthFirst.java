@@ -1,9 +1,25 @@
 package mazesolver;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class DepthFirst {
+
+    public static List<Integer> getPath(int[][] maze) {
+        int[][] mazeClone = new int[maze.length][];
+        for (int i = 0; i < maze.length; i++) {
+            mazeClone[i] = maze[i].clone();
+        }
+        List<Integer> immutablePath = new ArrayList<>();
+        long startNano = System.nanoTime();
+        DepthFirst.searchPath(mazeClone, 1, 1, immutablePath);
+        Collections.reverse(immutablePath);
+        long endNano = System.nanoTime();
+        System.out.println("Breadth First Search algorithm took " + (endNano - startNano) + " nanoseconds.");
+        return immutablePath;
+    }
+
     public static boolean searchPath(int[][] maze, int x, int y, List<Integer> path) {
         if (maze[y][x] == 9) {
             path.add(x);
