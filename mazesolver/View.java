@@ -5,30 +5,65 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 public class View  extends JFrame {
     //TODO maze needs to be generated randomly
-    private int[][] maze =
-        {   {1,1,1,1,1,1,1,1,1,1,1,1,1},
-            {1,0,1,0,1,1,1,0,0,1,1,0,1},
-            {1,0,1,0,1,0,1,0,1,1,1,0,1},
-            {1,0,0,0,1,1,1,0,0,0,0,0,1},
-            {1,1,1,0,0,0,0,0,1,1,1,0,1},
-            {1,0,1,0,1,0,1,1,1,0,0,0,1},
-            {1,0,1,0,1,0,0,0,0,0,1,0,1},
-            {1,0,1,0,1,1,1,0,1,0,1,0,1},
-            {1,0,0,0,0,0,0,0,0,0,1,9,1},
-            {1,1,1,1,1,1,1,1,1,1,1,1,1}
-        };
+    private static final List<int[][]> mazesList = new ArrayList<>();
+
+    static {
+        mazesList.add(new int[][]{
+                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                {1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 1, 0, 1},
+                {1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1},
+                {1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1},
+                {1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1},
+                {1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1},
+                {1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1},
+                {1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1},
+                {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 9, 1},
+                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
+        });
+        mazesList.add(new int[][]{
+                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                {1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 1, 0, 1},
+                {1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1},
+                {1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1},
+                {1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1},
+                {1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1},
+                {1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 0, 1},
+                {1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1},
+                {1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 9, 1},
+                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
+        });
+        mazesList.add(new int[][]{
+                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                {1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1},
+                {1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1},
+                {1, 0, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1},
+                {1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+                {1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1},
+                {1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1},
+                {1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1},
+                {1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 9, 1},
+                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
+        });
+    }
+
     private final List<Integer> path = new ArrayList<Integer>();
     private int step = 0;
+    private int[][] currentMaze;
     public  View() {
         setTitle("Simple Maze Solver");
         setSize(640, 480);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        DepthFirst.searchPath(maze, 1, 1, path);
+        Random random = new Random();
+        int mazeIndex = random.nextInt(mazesList.size());
+        currentMaze = mazesList.get(mazeIndex);
+
+        DepthFirst.searchPath(currentMaze, 1, 1, path);
         Collections.reverse(path);
         System.out.println(path);
     }
@@ -36,17 +71,17 @@ public class View  extends JFrame {
     @Override
     public void paint(Graphics g) {
         // nr of columns
-        int mazeWidth = maze[0].length * 30;
+        int mazeWidth = currentMaze[0].length * 30;
         // nr of rows
-        int mazeHeight = maze.length * 30;
+        int mazeHeight = currentMaze.length * 30;
         // coordinates for centering maze in view
         int x = (getWidth() - mazeWidth) / 2;
         int y = (getHeight() - mazeHeight) / 2;
         // set colours depending on nr in maze
-        for (int row = 0; row < maze.length; row++) {
-            for (int col = 0; col < maze[0].length; col++) {
+        for (int row = 0; row < currentMaze.length; row++) {
+            for (int col = 0; col < currentMaze[0].length; col++) {
                 Color colour;
-                switch (maze[row][col]) {
+                switch (currentMaze[row][col]) {
                     case 1:
                         colour = Color.BLACK;
                         break;
