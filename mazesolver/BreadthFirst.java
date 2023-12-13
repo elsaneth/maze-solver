@@ -3,7 +3,6 @@ package mazesolver;
 import java.util.*;
 
 public class BreadthFirst {
-
     public static List<Integer> getPath(int[][] maze) {
         int[][] mazeClone = new int[maze.length][];
         for (int i = 0; i < maze.length; i++) {
@@ -29,28 +28,30 @@ public class BreadthFirst {
                 reconstructPath(startX, startY, current, path);
                 return;
             }
-
-            if (isFree(maze, current.x + 1, current.y)) {
-                maze[current.y][current.x] = -1;
-                Point next = new Point(current.x + 1, current.y, current);
-                queue.add(next);
-            }
-
-            if (isFree(maze, current.x - 1, current.y)) {
-                maze[current.y][current.x] = -1;
-                Point next = new Point(current.x - 1, current.y, current);
-                queue.add(next);
-            }
-
+            // check if upper neighbor is free
             if (isFree(maze, current.x, current.y + 1)) {
                 maze[current.y][current.x] = -1;
                 Point next = new Point(current.x, current.y + 1, current);
                 queue.add(next);
             }
-
+            // check if neighbor below is free
             if (isFree(maze, current.x, current.y - 1)) {
                 maze[current.y][current.x] = -1;
                 Point next = new Point(current.x, current.y - 1, current);
+                queue.add(next);
+            }
+            // check if right neighnor is free
+            if (isFree(maze, current.x + 1, current.y)) {
+                // mark it as visited
+                maze[current.y][current.x] = -1;
+                // new point for right neighbor
+                Point next = new Point(current.x + 1, current.y, current);
+                queue.add(next);
+            }
+            // check if left neighbor is free
+            if (isFree(maze, current.x - 1, current.y)) {
+                maze[current.y][current.x] = -1;
+                Point next = new Point(current.x - 1, current.y, current);
                 queue.add(next);
             }
         }
@@ -68,11 +69,12 @@ public class BreadthFirst {
 
         Collections.reverse(path);
     }
-
+    // check if position is free or it's destination
     private static boolean isFree(int[][] maze, int x, int y) {
-        return (x >= 0 && x < maze[0].length && y >= 0 && y < maze.length && (maze[y][x] == 0 || maze[y][x] == 9));
+        return (x >= 1 && x < maze[0].length && y >= 1 && y < maze.length && (maze[y][x] == 0 || maze[y][x] == 9));
     }
 
+    // linked list like structure
     private static class Point {
         int x;
         int y;
@@ -84,4 +86,4 @@ public class BreadthFirst {
             this.parent = parent;
         }
     }
-    }
+}
