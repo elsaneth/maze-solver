@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class View extends JFrame {
+
+    public static final int DESTINATION = 9;
+    public static final int WALL = 1;
     private static final List<int[][]> mazesList = new ArrayList<>();
 
     static {
@@ -59,12 +62,10 @@ public class View extends JFrame {
         });
     }
 
-    private List<Integer> path = new ArrayList<>();
-    private int step = 0;
+    private List<Point> points = new ArrayList<>();
     private final int[][] currentMaze;
     private boolean isDepthFirst = false;
     private boolean isBreadthFirst = false;
-    private boolean isAAsterisk = false;
     private boolean hasRun = false;
 
     private static final Integer MAZE_NUMBER = 2;
@@ -82,7 +83,7 @@ public class View extends JFrame {
         // Create buttons
         JButton depthFirstButton = new JButton("Depth First Search");
         JButton breadthFirstButton = new JButton("Breadth First Search");
-        JButton AAsteriskButton = new JButton("A* Search");
+        JButton aStarButton = new JButton("A* Search");
 
         // Add ActionListeners to handle button clicks
         depthFirstButton.addActionListener(e -> {
@@ -97,9 +98,9 @@ public class View extends JFrame {
             }
             this.hasRun = true;
         });
-        AAsteriskButton.addActionListener(e -> {
+        aStarButton.addActionListener(e -> {
             if (!this.hasRun) {
-                AAsteriskSearchFunction();
+                aStarSearchFunction();
             }
             this.hasRun = true;
         });
@@ -109,7 +110,7 @@ public class View extends JFrame {
         // buttons to the panel
         buttonPanel.add(depthFirstButton);
         buttonPanel.add(breadthFirstButton);
-        buttonPanel.add(AAsteriskButton);
+        buttonPanel.add(aStarButton);
 
         getContentPane().add(buttonPanel, BorderLayout.SOUTH);
     }
@@ -119,9 +120,8 @@ public class View extends JFrame {
         System.out.println("Depth First Search Button clicked!");
         this.isDepthFirst = true;
         this.isBreadthFirst = false;
-        this.isAAsterisk = false;
-        this.path = DepthFirst.getPath(this.currentMaze);
-        System.out.println("Path size: " + this.path.size() / 2);
+        this.points = DepthFirst.getPoints(this.currentMaze);
+        System.out.println("Path size: " + this.points.size());
         repaint();
     }
 
@@ -130,18 +130,17 @@ public class View extends JFrame {
         System.out.println("Breadth First Search Button clicked!");
         this.isDepthFirst = false;
         this.isBreadthFirst = true;
-        this.isAAsterisk = false;
-        this.path = BreadthFirst.getPath(this.currentMaze);
-        System.out.println("Path size: " + this.path.size() / 2);
+        this.points = BreadthFirst.getPoints(this.currentMaze);
+        System.out.println("Path size: " + this.points.size());
         repaint();
     }
-    private void AAsteriskSearchFunction() {
+
+    private void aStarSearchFunction() {
         System.out.println("A* Search Button clicked!");
         this.isDepthFirst = false;
         this.isBreadthFirst = false;
-        this.isAAsterisk = true;
-//        this.path = AAsterisk.getPath(this.currentMaze);
-//        System.out.println("Path size: " + this.path.size() / 2);
+        this.points = AStar.getPoints(this.currentMaze);
+        System.out.println("Path size: " + this.points.size());
         repaint();
     }
 
@@ -167,29 +166,25 @@ public class View extends JFrame {
             }
         }
 
-        Color color = Color.orange;
+        // Choose path color
+        Color color;
         if (isBreadthFirst) {
             color = Color.blue;
+        } else if (isDepthFirst) {
+            color = Color.orange;
+        } else {
+            color = Color.pink;
         }
+        g.setColor(color);
 
-        for (int p = 0; p < step; p += 2) {
-            int pathX = path.get(p + 1);
-            int pathY = path.get(p);
-            g.setColor(color);
-            g.fillOval(x + 30 * pathX + 10, y + 30 * pathY + 10, 10, 10);
-        }
-
-        // update the display for each step
-        try {
-            Thread.sleep(50);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        // increment the step for the next iteration
-        if (step < path.size()) {
-            step += 2;
-            repaint();
+        // Paint points
+        for (Point p : points) {
+            g.fillOval(x + 30 * p.x() + 10, y + 30 * p.y() + 10, 10, 10);
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
