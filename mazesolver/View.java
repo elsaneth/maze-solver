@@ -64,6 +64,7 @@ public class View extends JFrame {
     private final int[][] currentMaze;
     private boolean isDepthFirst = false;
     private boolean isBreadthFirst = false;
+    private boolean isAAsterisk = false;
     private boolean hasRun = false;
 
     private static final Integer MAZE_NUMBER = 2;
@@ -81,6 +82,7 @@ public class View extends JFrame {
         // Create buttons
         JButton depthFirstButton = new JButton("Depth First Search");
         JButton breadthFirstButton = new JButton("Breadth First Search");
+        JButton AAsteriskButton = new JButton("A* Search");
 
         // Add ActionListeners to handle button clicks
         depthFirstButton.addActionListener(e -> {
@@ -95,15 +97,21 @@ public class View extends JFrame {
             }
             this.hasRun = true;
         });
+        AAsteriskButton.addActionListener(e -> {
+            if (!this.hasRun) {
+                AAsteriskSearchFunction();
+            }
+            this.hasRun = true;
+        });
 
         JPanel buttonPanel = new JPanel(new FlowLayout());
 
         // buttons to the panel
         buttonPanel.add(depthFirstButton);
         buttonPanel.add(breadthFirstButton);
+        buttonPanel.add(AAsteriskButton);
 
         getContentPane().add(buttonPanel, BorderLayout.SOUTH);
-
     }
 
     // when Depth First Search button is clicked
@@ -111,6 +119,7 @@ public class View extends JFrame {
         System.out.println("Depth First Search Button clicked!");
         this.isDepthFirst = true;
         this.isBreadthFirst = false;
+        this.isAAsterisk = false;
         this.path = DepthFirst.getPath(this.currentMaze);
         System.out.println("Path size: " + this.path.size() / 2);
         repaint();
@@ -121,8 +130,18 @@ public class View extends JFrame {
         System.out.println("Breadth First Search Button clicked!");
         this.isDepthFirst = false;
         this.isBreadthFirst = true;
+        this.isAAsterisk = false;
         this.path = BreadthFirst.getPath(this.currentMaze);
         System.out.println("Path size: " + this.path.size() / 2);
+        repaint();
+    }
+    private void AAsteriskSearchFunction() {
+        System.out.println("A* Search Button clicked!");
+        this.isDepthFirst = false;
+        this.isBreadthFirst = false;
+        this.isAAsterisk = true;
+//        this.path = AAsterisk.getPath(this.currentMaze);
+//        System.out.println("Path size: " + this.path.size() / 2);
         repaint();
     }
 
