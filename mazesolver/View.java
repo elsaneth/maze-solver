@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class View extends JFrame {
-    //TODO maze needs to be generated randomly
     private static final List<int[][]> mazesList = new ArrayList<>();
 
     static {
@@ -46,23 +45,35 @@ public class View extends JFrame {
                 {1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 9, 1},
                 {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
         });
+        mazesList.add(new int[][]{
+                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                {1, 0, 1, 0, 1, 0, 0, 0, 0, 1, 1, 0, 1},
+                {1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1},
+                {1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1},
+                {1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1},
+                {1, 0, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1},
+                {1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1},
+                {1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1},
+                {1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 9, 1},
+                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
+        });
     }
 
     private List<Integer> path = new ArrayList<>();
     private int step = 0;
-    private int[][] currentMaze;
+    private final int[][] currentMaze;
     private boolean isDepthFirst = false;
     private boolean isBreadthFirst = false;
     private boolean hasRun = false;
 
-    private static final Integer MAZE_NUMBER = 0;
+    private static final Integer MAZE_NUMBER = 3;
 
     public View() {
         setTitle("Simple Maze Solver");
         setSize(640, 480);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+//96834
 //        Random random = new Random();
 //        int mazeIndex = random.nextInt(mazesList.size());
         this.currentMaze = mazesList.get(MAZE_NUMBER);
