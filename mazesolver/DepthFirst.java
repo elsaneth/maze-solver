@@ -11,13 +11,13 @@ public class DepthFirst {
         for (int i = 0; i < maze.length; i++) {
             mazeClone[i] = maze[i].clone();
         }
-        List<Integer> immutablePath = new ArrayList<>();
+        List<Integer> mutablePath = new ArrayList<>();
         long startNano = System.nanoTime();
-        DepthFirst.searchPath(mazeClone, 1, 1, immutablePath);
-        Collections.reverse(immutablePath);
+        DepthFirst.searchPath(mazeClone, 1, 1, mutablePath);
+        Collections.reverse(mutablePath);
         long endNano = System.nanoTime();
         System.out.println("Breadth First Search algorithm took " + (endNano - startNano) + " nanoseconds.");
-        return immutablePath;
+        return mutablePath;
     }
 
     public static boolean searchPath(int[][] maze, int x, int y, List<Integer> path) {
