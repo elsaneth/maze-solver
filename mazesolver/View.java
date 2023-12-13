@@ -66,14 +66,14 @@ public class View extends JFrame {
     private boolean isBreadthFirst = false;
     private boolean hasRun = false;
 
-    private static final Integer MAZE_NUMBER = 3;
+    private static final Integer MAZE_NUMBER = 2;
 
     public View() {
         setTitle("Simple Maze Solver");
         setSize(640, 480);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//96834
+
 //        Random random = new Random();
 //        int mazeIndex = random.nextInt(mazesList.size());
         this.currentMaze = mazesList.get(MAZE_NUMBER);
