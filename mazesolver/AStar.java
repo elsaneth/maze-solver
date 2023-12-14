@@ -46,7 +46,7 @@ public class AStar {
             if (current.x == destination.x() && current.y == destination.y()) {
                 var result = reconstructPath(cameFrom, destination);
                 long endMs = System.currentTimeMillis();
-                System.out.println("A* algorithm took " + (endMs - startMs) + "ms");
+                System.out.println("A* algorithm took " + (endMs - startMs) + " ms.");
                 return result;
             }
 
