@@ -17,7 +17,9 @@ public class DepthFirst {
         DepthFirst.searchPath(mazeClone, 1, 1, results);
         Collections.reverse(results);
         long endNano = System.nanoTime();
-        System.out.println("Depth First Search algorithm took " + (endNano - startNano) + " nanoseconds.");
+
+        double elapsedTimeMilliseconds = (endNano - startNano) / 1_000_000.0;
+        System.out.println("Depth First Search algorithm took " + elapsedTimeMilliseconds + " ms.");
         return results;
     }
 
