@@ -15,10 +15,10 @@ public class BreadthFirst {
             mazeClone[i] = maze[i].clone();
         }
         List<Point> results = new ArrayList<>();
-        long startNano = System.nanoTime();
+        long startNano = System.currentTimeMillis();
         searchPath(mazeClone, 1, 1, results);
-        long endNano = System.nanoTime();
-        System.out.println("Breadth First Search algorithm took " + (endNano - startNano) + " nanoseconds.");
+        long endNano = System.currentTimeMillis();
+        System.out.println("Breadth First Search algorithm took " + (endNano - startNano) + " ms.");
         return results;
     }
 
@@ -59,6 +59,7 @@ public class BreadthFirst {
                 BPoint next = new BPoint(current.x, current.y - 1, current);
                 queue.add(next);
             }
+//            printMazeState(maze);
         }
     }
 //    private static void printMazeState(int[][] maze) {
